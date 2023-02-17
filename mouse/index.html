@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Deserie Imy C. Quidet</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.css">
+
+    <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
+    <script src="https://kit.fontawesome.com/0de217df19.js" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+  <!-----------------------------------------------CSS-------------------------------------------------------->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+  button#mode-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  cursor: pointer;
+}
+
+button#mode-toggle::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  transition: transform 0.3s ease-in-out;
+}
+
+body.dark-mode button#mode-toggle::before {
+  transform: translateX(16px);
+}
+
+body {
+background: #000046;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #1CB5E0, #000046);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #1CB5E0, #000046); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color: rgb(117, 236, 247);
+font-family: 'Exo 2', sans-serif;
+}
+
+body.dark-mode {
+background: #7F7FD5;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color: black;
+}
+
+  .container{
+    margin-inline: auto;      
+  
+    }
+  h1{
+    font-size: 100px;
+    font-weight: 100;
+    display:inline-block;
+    padding-left: 50px;
+    }
+  .show-image{
+    display: inline-block;
+    }
+
+  .rectangle{
+    width: 1200px;
+    height: 1200px;
+    background-color: rgba(0, 0, 0, 0.4); 
+    margin: auto;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: relative;
+    border-radius: 10px;
+  -webkit-box-shadow: 0 23px 49px 0 rgba(0, 0, 0, 0.1);
+          box-shadow: 0 23px 49px 0 rgba(0, 0, 0, 0.1);
+    z-index: -1;
+  }
+  h2{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin-top: 2px;
+    padding-top: 40px;
+  }
+  h3{
+    color: rgb(255, 252, 252);
+
+    padding-left: 10px;
+    font-size: 30px;
+    z-index: 1;
+    text-align: center;
+  }
+  p{
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    padding-left: 18px;
+    padding-right: 20px;
+    text-align: justify;
+    line-height: 1.5;
+  }
+ p::first-letter {
+  font-size: 4rem;
+  color: rgb(186, 220, 254);
+  margin-right: 1rem;
+}
+.about-me{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  margin-right: 20px;
+  float: left;
+  z-index: 1;
+}
+.wheel {
+  border: 2px solid black;
+  border-radius: 50%;
+  margin-left: 50px;
+  position: absolute;
+  height: 55vw;
+  width: 55vw;
+  max-width: 500px;
+  max-height: 500px;
+  animation-name: wheel;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  z-index: -2;
+}
+
+.line {
+  background-color: rgb(3, 0, 98);
+  width: 50%;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 0%;
+}
+
+.line:nth-of-type(2) {
+  transform: rotate(60deg);
+}
+.line:nth-of-type(3) {
+  transform: rotate(120deg);
+}
+.line:nth-of-type(4) {
+  transform: rotate(180deg);
+}
+.line:nth-of-type(5) {
+  transform: rotate(240deg);
+}
+.line:nth-of-type(6) {
+  transform: rotate(300deg);
+}
+
+.cabin {
+  background-color: rgb(123, 255, 0);
+  width: 20%;
+  height: 20%;
+  position: absolute;
+  border: 2px solid;
+  transform-origin: 50% 0%;
+  animation: cabins 10s ease-in-out infinite;
+  border-radius: 5px;
+}
+
+.cabin:nth-of-type(1) {
+  right: -8.5%;
+  top: 50%;
+}
+.cabin:nth-of-type(2) {
+  right: 17%;
+  top: 93.5%;
+}
+.cabin:nth-of-type(3) {
+  right: 67%;
+  top: 93.5%;
+}
+.cabin:nth-of-type(4) {
+  left: -8.5%;
+  top: 50%;
+}
+.cabin:nth-of-type(5) {
+  left: 17%;
+  top: 7%;
+}
+.cabin:nth-of-type(6) {
+  right: 17%;
+  top: 7%;
+}
+
+@keyframes wheel {
+   0% {
+     transform: rotate(0deg);
+   }
+   100% {
+     transform: rotate(360deg);
+   }
+}
+
+@keyframes cabins {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    background-color: #3494E6;
+  }
+  50% {
+    background-color: #EC6EAD;
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+hr{
+  margin:1.5rem 0;
+  background-color: #1CB5E0;
+  opacity: 50%;
+}
+.slider{
+
+text-align:center;
+display:block;
+
+width: 200px;
+height: 200px;
+transform-style: preserve-3d;
+animation: rotate 30s linear infinite; 
+}
+@keyframes rotate{
+0% {
+  transform: perspective(1000px) rotateY(0deg);
+}
+100%{
+  transform: perspective(1000px) rotateY(360deg);
+  }
+  }
+.slider span{
+position: absolute;
+margin-top: 20%;
+color:#ffffff;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+transform-origin: center;
+transform-style: preserve-3d;
+transform: rotateY(calc(var(--i)*45deg)) translateZ(350px);
+text-align: center;
+}
+.slider span img{
+position: absolute;
+padding-top: 20px;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+border-radius: 5px;
+object-fit: fill;
+transition: 2s;
+    
+}
+.slider span:hover img{
+transform: translateY(-50px) scale(1.2);
+}
+
+.type{ 
+		color: #001c46;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.type h3{
+		font-size: 50px;
+		font-weight: 600;
+	}
+	.type span{
+		color: #4460e8;
+	}
+  nav {
+  float: right;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+nav a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #000;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+  border-bottom: 1px solid transparent; /* add a transparent border */
+  transition: border-color 0.3s, color 0.3s; /* add a transition effect */
+  font-size: large;
+  font-weight: bold;
+}
+
+a:hover {
+  border-color: #000; /* change the border color */
+  color: #f5f5f5; /* change the text color */
+}
+
+/*media queries*/
+@media screen and (min-width: 375px) and (max-width: 667px) { /*Phones*/
+  h1{
+    font-size: 50px;
+    }
+    a{
+      font-size: 10px;
+      color: #f5f5f5;
+    }
+    .rectangle{
+      width: 90%;
+      height: 100%;
+    }
+    h2{
+      font-size: 22px;
+    }
+    .type h3{
+      font-size: 20px;
+    }
+    h3{
+      font-size: 20px;
+    }
+    p{
+      font-size: 10px;
+    }
+    #about-me img{
+      display: none;
+    }
+    .slider span{
+      width: 80%;
+      height: 80%;
+    }
+    .slider span img{
+      width: 80%;
+      height: 80%;
+    }
+}
+@media screen and (min-width: 820px) and (max-width: 1180px){ /*Tablet / Ipad*/
+  h1{
+    font-size: 50px;
+    }
+    a{
+      font-size: 15px;
+      color: #f5f5f5;
+    }
+    .rectangle{
+      width: 80%;
+      height: 1100px;
+    }
+    h2{
+      font-size: 22px;
+    }
+    .type h3{
+      font-size: 20px;
+    }
+    h3{
+      font-size: 20px;
+    }
+    p{
+      font-size: 20px;
+    }
+    #about-me img{
+      display: none;
+    }
+    .slider span{
+      width: 80%;
+      height: 80%;
+    }
+    .slider span img{
+      width: 80%;
+      height: 80%;
+    }
+}
+
+
+
+  </style>
+
+    <!-----------------------------------------------HTML-------------------------------------------------------->
+    <nav>
+      <ul>
+        <li><a href="#">// Home</a></li>
+        <li><a href="#about-me">// About</a></li>
+        <li><a href="#certificates">// Certificates</a></li>
+        <li><a href="#">// Contact</a></li>
+      </ul>
+    </nav>
+    
+    
+
+    <div class="container show-image" data-cursor-img="photo1.jpg">
+    <h1>Deserie Imy <br> Quidet</h1>
+    </div>
+    <button id="mode-toggle"></button>
+    <div class="wheel">
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+
+      <div class="cabin"></div>
+      <div class="cabin"></div>
+      <div class="cabin"></div>
+      <div class="cabin"></div>
+      <div class="cabin"></div>
+      <div class="cabin"></div>
+    </div>
+    <div class="rectangle">
+    <h2>BS in Computer Engineering | <span style="color:#7F7FD5" >Web Developer </span>
+      | <span style="color:#86A8E7" >Photo Editor </span> | <span style="color: #91afea" >Video Editor </span> </a></h2>
+      <div class="type">
+        <h3>Skills | <span class="auto-type"></span> </h3>
+      </div>
+      <!-- Javascript for type effect -->
+      <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+      
+      <script>
+        var typed = new Typed(".auto-type", {
+          strings: ["Leadership", "Innovative", "Optimistic","Problem Solver"],
+          typeSpeed: 90,
+          backSpeed: 90,
+          loop: true
+        })
+      </script>
+    <hr>
+
+    <h3>About Me</h3>
+    <section id="about-me">
+      <div class="about-me">
+      
+        <p>I am a versatile web developer with a passion for creating user-friendly and visually appealing websites. 
+          <br>My expertise lies in frontend technologies such as HTML, CSS, and JS, and I am also well-versed in PHP and MySQL 
+          database for backend development. In addition to my technical skills, I have a keen eye for design and 
+          I specialize in photo and video editing using Adobe Photoshop and Premiere Pro/Filmora. 
+          I am a problem solver, critical thinker, and a leader with a positive attitude who excels in team environments. 
+          My interpersonal skills, decision making, and flexibility make me an asset to any project.</p><br>
+          <img src="aboutme.png" alt="aboutme">
+      </div>
+    </section>
+    
+    <hr>
+    <h3>Certifications</h3>
+    <section id="certificates">
+      <center>
+        <div class="slider">
+          <span style="--i:1;"><img src="6G.jpg" >6G </span>
+          <span style="--i:2;"><img src="Cybersecurity.png">Cybersecurity</span>
+          <span style="--i:3;"><img src="photo3.jpg" >Microsoft Bizzaps </span>
+          <span style="--i:4;"><img src="photo4.jpg">Computational Thinking </span>
+          <span style="--i:5;"><img src="photo5.jpg" >Microsoft Cloud Security</span>
+          <span style="--i:6;"><img src="photo6.jpg" >Machine Learning</span>
+          <span style="--i:7;"><img src="rwd.png" >Responsive Web Design</span>
+          <span style="--i:8;"><img src="mysql.png" >MySQL Database</span>
+        </div>
+      </center>
+    </section>
+    
+    </div>
+    
+    <!-----------------------------------------------JAVASCRIPT-------------------------------------------------------->
+
+    <script>
+    const cursor = new MouseFollower({
+    el: null,
+    container: document.body,
+    className: 'mf-cursor',
+    innerClassName: 'mf-cursor-inner',
+    textClassName: 'mf-cursor-text',
+    mediaClassName: 'mf-cursor-media',
+    mediaBoxClassName: 'mf-cursor-media-box',
+    iconSvgClassName: 'mf-svgsprite',
+    iconSvgNamePrefix: '-',
+    iconSvgSrc: '',
+    dataAttr: 'cursor',
+    hiddenState: '-hidden',
+    textState: '-text',
+    iconState: '-icon',
+    activeState: '-active',
+    mediaState: '-media',
+    stateDetection: {
+        '-pointer': 'a,button',
+        '-hidden': 'iframe'
+    },
+    visible: true,
+    visibleOnState: false,
+    speed: 0.55,
+    ease: 'expo.out',
+    overwrite: true,
+    skewing: 0,
+    skewingText: 2,
+    skewingIcon: 2,
+    skewingMedia: 2,
+    skewingDelta: 0.001,
+    skewingDeltaMax: 0.15,
+    stickDelta: 0.15,
+    showTimeout: 20,
+    hideOnLeave: true,
+    hideTimeout: 300,
+    hideMediaTimeout: 300
+});
+const toggleButton = document.querySelector("#mode-toggle");
+
+toggleButton.addEventListener("click", function() {
+  document.body.classList.toggle("dark-mode");
+});
+</script>
+</body>
+</html>
